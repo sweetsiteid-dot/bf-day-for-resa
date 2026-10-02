@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Boyfriend Day - Resa & Keenan</title>
+  
+  <!-- Font Premium Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(180deg, #120104 0%, #2b060d 30%, #1c0206 70%, #0d0002 100%);
+      --maroon-card: rgba(48, 6, 13, 0.65);
+      --maroon-border: rgba(212, 175, 55, 0.35);
+      --gold-accent: linear-gradient(135deg, #ffe082 0%, #d4af37 50%, #aa7c11 100%);
+      --gold-text: #e8c872;
+      --text-light: #f8f1e9;
+      --text-muted: #cfa8a2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 12px;
+    }
+
+    /* Ambient Glow Effects */
+    .glow-orb {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(140, 10, 35, 0.35) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .glow-1 { top: -60px; left: -60px; }
+    .glow-2 { bottom: 10%; right: -60px; }
+
+    /* Container Screen */
+    .screen {
+      width: 100%;
+      max-width: 460px;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Glass Card Style */
+    .glass-card {
+      background: var(--maroon-card);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--maroon-border);
+      border-radius: 28px;
+      padding: 28px 20px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-align: center;
+    }
+
+    /* Header Styling */
+    .subtitle {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: var(--gold-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    /* Section Divider & Titles */
+    .section-divider {
+      width: 80px;
+      height: 2px;
+      background: var(--gold-accent);
+      margin: 32px auto 20px;
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gold-text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* PIN Lock UI */
+    .pin-icon {
+      font-size: 2.5rem;
+      color: var(--gold-text);
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+    }
+
+    .pin-display {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0 28px;
+    }
+
+    .pin-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-text);
+      transition: all 0.2s ease;
+    }
+
+    .pin-dot.filled {
+      background: var(--gold-text);
+      box-shadow: 0 0 12px var(--gold-text);
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .key-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 16px;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .key-btn:active {
+      background: rgba(212, 175, 55, 0.2);
+      transform: scale(0.92);
+    }
+
+    .error-msg {
+      color: #ff5252;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      height: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    /* Main Content Screen */
+    .recipient-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--maroon-border);
+      border-radius: 20px;
+      color: var(--gold-text);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    /* Photo Slider */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px 0;
+      border: 1px solid var(--maroon-border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+      transform: scale(1.05);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--text-light);
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+    .slider-btn.prev { left: 12px; }
+    .slider-btn.next { right: 12px; }
+
+    /* Audio Player Custom */
+    .music-player {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .play-btn {
+      background: var(--gold-accent);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: #1a0307;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    .song-info {
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    .song-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    .song-artist {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Message Box */
+    .message-box {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 18px;
+      padding: 22px;
+      text-align: left;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      color: #f1e4e1;
+      border-left: 3px solid var(--gold-text);
+      margin-bottom: 24px;
+      white-space: pre-line;
+    }
+
+    .sender-tag {
+      text-align: right;
+      font-family: 'Sacramento', cursive;
+      font-size: 1.8rem;
+      color: var(--gold-text);
+      margin-top: 10px;
+    }
+
+    /* COUNTDOWN / COUNTER TIMER */
+    .timer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .timer-item {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--maroon-border);
+      border-radius: 14px;
+      padding: 12px 4px;
+      text-align: center;
+    }
+
+    .timer-num {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold-text);
+    }
+
+    .timer-label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* TIMELINE SECTION */
+    .timeline {
+      position: relative;
+      padding-left: 20px;
+      text-align: left;
+      margin: 20px 0;
+      border-left: 2px solid var(--gold-text);
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding-left: 14px;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -27px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold-text);
+      box-shadow: 0 0 10px var(--gold-text);
+    }
+
+    .tl-date {
+      font-size: 0.75rem;
+      color: var(--gold-text);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .tl-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin: 2px 0 4px;
+    }
+
+    .tl-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* BUCKET LIST CHECKLIST */
+    .checklist-box {
+      text-align: left;
+      background: rgba(0,0,0,0.25);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+    }
+
+    .check-item:last-child {
+      border-bottom: none;
+    }
+
+    .check-box-custom {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--gold-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .check-item.done .check-box-custom {
+      background: var(--gold-text);
+      color: #1a0307;
+    }
+
+    .check-item.done span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* VOUCHER / COUPONS SECTION */
+    .coupons-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .coupon-card {
+      background: linear-gradient(135deg, rgba(80, 10, 22, 0.8) 0%, rgba(30, 3, 7, 0.9) 100%);
+      border: 1px dashed var(--gold-text);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
+
+    .coupon-info h4 {
+      font-size: 0.95rem;
+      color: var(--gold-text);
+      margin-bottom: 2px;
+    }
+
+    .coupon-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .claim-btn {
+      background: var(--gold-accent);
+      color: #1a0307;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .claim-btn.claimed {
+      background: rgba(255,255,255,0.2);
+      color: var(--text-muted);
+      cursor: default;
+    }
+
+    /* REASONS GENERATOR */
+    .reason-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--maroon-border);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .reason-text {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--text-light);
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    /* OPEN WHEN / SECRET NOTES */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .note-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .note-card:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold-text);
+      transform: translateY(-3px);
+    }
+
+    .note-card i {
+      font-size: 1.5rem;
+      color: var(--gold-text);
+    }
+
+    .note-card p {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    /* Action Button General */
+    .action-btn {
+      background: var(--gold-accent);
+      color: #1a0307;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Popup Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-body {
+      background: #230409;
+      border: 1px solid var(--gold-text);
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-body h3 {
+      color: var(--gold-text);
+      font-family: 'Cinzel', serif;
+      margin-bottom: 12px;
+    }
+
+    .modal-body p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .watermark {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 1px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb glow-1"></div>
+  <div class="glow-orb glow-2"></div>
+
+  <!-- Audio Element -->
+  <audio id="bg-music" loop>
+    <source src="keepme.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- SCREEN 1: PIN LOCK -->
+  <main class="screen" id="pin-screen">
+    <div class="glass-card">
+      <i class="fa-solid fa-lock pin-icon"></i>
+      <p class="subtitle">Private Access</p>
+      <h1 class="title">Boyfriend Day</h1>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Masukkan Passcode Rahasia</p>
+
+      <div class="pin-display">
+        <div class="pin-dot" id="dot-0"></div>
+        <div class="pin-dot" id="dot-1"></div>
+        <div class="pin-dot" id="dot-2"></div>
+        <div class="pin-dot" id="dot-3"></div>
+      </div>
+
+      <div class="keypad">
+        <button class="key-btn" onclick="pressKey('1')">1</button>
+        <button class="key-btn" onclick="pressKey('2')">2</button>
+        <button class="key-btn" onclick="pressKey('3')">3</button>
+        <button class="key-btn" onclick="pressKey('4')">4</button>
+        <button class="key-btn" onclick="pressKey('5')">5</button>
+        <button class="key-btn" onclick="pressKey('6')">6</button>
+        <button class="key-btn" onclick="pressKey('7')">7</button>
+        <button class="key-btn" onclick="pressKey('8')">8</button>
+        <button class="key-btn" onclick="pressKey('9')">9</button>
+        <button class="key-btn" onclick="clearPin()"><i class="fa-solid fa-rotate-left" style="font-size: 1rem;"></i></button>
+        <button class="key-btn" onclick="pressKey('0')">0</button>
+        <button class="key-btn" onclick="deleteKey()"><i class="fa-solid fa-backspace" style="font-size: 1rem;"></i></button>
+      </div>
+
+      <p class="error-msg" id="error-msg">PIN salah, coba lagi ya!</p>
+    </div>
+  </main>
+
+  <!-- SCREEN 2: MAIN CONTENT (LONG PAGE) -->
+  <main class="screen hidden" id="main-screen">
+    <div class="glass-card">
+      
+      <!-- Top Badge -->
+      <div class="recipient-badge">
+        <i class="fa-solid fa-crown" style="margin-right: 6px;"></i> Special For Resa
+      </div>
+      
+      <p class="subtitle">National Boyfriend Day</p>
+      <h1 class="title">Happy Boyfriend Day!</h1>
+
+      <!-- Custom Music Player -->
+      <div class="music-player">
+        <button class="play-btn" id="play-btn" onclick="toggleMusic()">
+          <i class="fa-solid fa-play" id="play-icon"></i>
+        </button>
+        <div class="song-info">
+          <div class="song-title">keepme</div>
+          <div class="song-artist">Special Soundtrack</div>
+        </div>
+        <i class="fa-solid fa-music" style="color: var(--gold-text); opacity: 0.6;"></i>
+      </div>
+
+      <!-- Photo Carousel (7 Foto) -->
+      <div class="slider-container">
+        <button class="slider-btn prev" onclick="moveSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="slider-btn next" onclick="moveSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+        
+        <div class="slide active"><img src="foto1.jpg" alt="Memories 1"></div>
+        <div class="slide"><img src="foto2.jpg" alt="Memories 2"></div>
+        <div class="slide"><img src="foto3.jpg" alt="Memories 3"></div>
+        <div class="slide"><img src="foto4.jpg" alt="Memories 4"></div>
+        <div class="slide"><img src="foto5.jpg" alt="Memories 5"></div>
+        <div class="slide"><img src="foto6.jpg" alt="Memories 6"></div>
+        <div class="slide"><img src="foto7.jpg" alt="Memories 7"></div>
+      </div>
+
+      <!-- Main Message Box -->
+      <div class="message-box">
+        happy boyfriend day to my last 7 minutes 🤍
+
+        honestly, idek how to put into words how grateful i am to have u in my life. thank you for all the little things you do, for every conversation, every random moment, every laugh, and even the moments that weren’t always easy for us. somehow, all of them became little parts of our story that i’m really thankful for.
+
+        i know we’re not perfect, n i know sometimes i still make mistakes n don’t always know how to love you the way you need. but i want you to know that i’m still learning, still trying, and i still want to keep choosing you every day.
+
+        i hope yk how loved you are, sayang. u deserve to feel loved, understood, and appreciated—not just today, but on the ordinary days too. i'm really proud to call you my boyfriend, and i’m really happy that out of all the people in this world, somehow our paths crossed.
+
+        happy boyfriend day, my boy. thank you for being you, and thank you for letting me be a little part of your life. i loveee you so muchhh 🫶🏻🤍
+        
+        <div class="sender-tag">— With love, Keenan</div>
+      </div>
+
+      <!-- 1. COUNTER TIMER (Sejak 25 June 2026) -->
+      <div class="section-divider"></div>
+      <div class="section-title"><i class="fa-solid fa-hourglass-half"></i> Days of Happiness</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">Waktu yang sudah kita lewati bersama (Sejak 25 Juni 2026):</p>
+      <div class="timer-grid">
+        <div class="timer-item"><div class="timer-num" id="t-days">0</div><div class="timer-label">Hari</div></div>
+        <div class="timer-item"><div class="timer-num" id="t-hours">0</div><div class="timer-label">Jam</div></div>
+        <div class="timer-item"><div class="timer-num" id="t-mins">0</div><div class="timer-label">Menit</div></div>
+        <div class="timer-item"><div class="timer-num" id="t-secs">0</div><div class="timer-label">Detik</div></div>
+      </div>
+
+      <!-- 2. REASONS WHY I LOVE YOU GENERATOR -->
+      <div class="section-divider"></div>
+      <div class="section-title"><i class="fa-solid fa-quote-left"></i> Why You're Special</div>
+      <div class="reason-box">
+        <div class="reason-text" id="reason-display">"Klik tombol di bawah buat liat salah satu alasan kamu tuh spesial!"</div>
+        <button class="action-btn" onclick="generateReason()"><i class="fa-solid fa-shuffle"></i> Acak Alasan</button>
+      </div>
+
+      <!-- 3. MEMORY TIMELINE -->
+      <div class="section-divider"></div>
+      <div class="section-title"><i class="fa-solid fa-timeline"></i> Our Journey</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">25 June 2026</div>
+          <div class="tl-title">The Day We Started</div>
+          <div class="tl-desc">Hari spesial di mana kisah kita berdua resmi dimulai.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Sweet Moment</div>
+          <div class="tl-title">Little Moments</div>
+          <div class="tl-desc">Setiap tawa, obrolan random, dan momen manis yang kita laluin bareng.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Today</div>
+          <div class="tl-title">Boyfriend Day!</div>
+          <div class="tl-desc">Merayakan hari ini khusus buat Resa, sosok favorit di hidup aku!</div>
+        </div>
+      </div>
+
+      <!-- 4. OPEN WHEN / SECRET NOTES -->
+      <div class="section-divider"></div>
+      <div class="section-title"><i class="fa-solid fa-envelope-open-text"></i> Open When...</div>
+      <div class="notes-grid">
+        <div class="note-card" onclick="openNote('Lagi Kangen', 'Kalau lagi kangen, langsung chat atau telpon aku ya! I miss you more! ❤️')">
+          <i class="fa-solid fa-heart-pulse"></i><p>Lagi Kangen</p>
+        </div>
+        <div class="note-card" onclick="openNote('Lagi Capek', 'Istirahat dulu yaa. Kamu udah hebat banget hari ini. Proud of you! ☕✨')">
+          <i class="fa-solid fa-mug-hot"></i><p>Lagi Capek</p>
+        </div>
+        <div class="note-card" onclick="openNote('Butuh Support', 'Kamu pasti bisa! Apapun jalannya, aku bakal selalu dukung kamu. 💪🔥')">
+          <i class="fa-solid fa-star"></i><p>Butuh Support</p>
+        </div>
+        <div class="note-card" onclick="openNote('Lagi Pengen Senyum', 'Ingat yaa, senyuman kamu itu selalu berhasil bikin hari aku jadi lebih indah. 😊')">
+          <i class="fa-solid fa-face-smile-beam"></i><p>Pengen Senyum</p>
+        </div>
+      </div>
+
+      <!-- 5. BUCKET LIST CHECKLIST -->
+      <div class="section-divider"></div>
+      <div class="section-title"><i class="fa-solid fa-list-check"></i> Our Future Goals</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Hal-hal yang harus kita lakukan bareng:</p>
+      <div class="checklist-box">
+        <div class="check-item done" onclick="toggleCheck(this)"><div class="check-box-custom"><i class="fa-solid fa-check"></i></div><span>Keep Choosing Each Other, Every Day</span></div>
+        <div class="check-item done" onclick="toggleCheck(this)"><div class="check-box-custom"><i class="fa-solid fa-check"></i></div><span>Bikin Banyak Cerita Baru Bareng</span></div>
+        <div class="check-item done" onclick="toggleCheck(this)"><div class="check-box-custom"><i class="fa-solid fa-check"></i></div><span>Punya Lebih Banyak Little Moments Buat Diinget</span></div>
+        <div class="check-item done" onclick="toggleCheck(this)"><div class="check-box-custom"><i class="fa-solid fa-check"></i></div><span>Ngerayain Hal-Hal Kecil Bareng</span></div>
+      </div>
+
+      <!-- 6. COUPON REWARDS -->
+      <div class="section-divider"></div>
+      <div class="section-title"><i class="fa-solid fa-ticket"></i> Special Coupons</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">Voucher khusus buat Resa (bisa diklaim kapan aja!):</p>
+      <div class="coupons-grid">
+        <div class="coupon-card">
+          <div class="coupon-info"><h4>Voucher Bebas Marah</h4><p>Berlaku untuk 1 hari penuh kebebasan!</p></div>
+          <button class="claim-btn" onclick="claimCoupon(this)">KLAIM</button>
+        </div>
+        <div class="coupon-card">
+          <div class="coupon-info"><h4>Voucher Ditraktir Kopi/Favorit</h4><p>Bisa diklaim kapan aja pas lagi ngumpul.</p></div>
+          <button class="claim-btn" onclick="claimCoupon(this)">KLAIM</button>
+        </div>
+        <div class="coupon-card">
+          <div class="coupon-info"><h4>Voucher Free Warm Hug</h4><p>Unlimited hug kapan pun kamu butuh!</p></div>
+          <button class="claim-btn" onclick="claimCoupon(this)">KLAIM</button>
+        </div>
+      </div>
+
+      <div class="watermark">Made with ❤ by Keenan for Resa</div>
+    </div>
+  </main>
+
+  <!-- POPUP MODAL -->
+  <div class="modal-overlay" id="note-modal">
+    <div class="modal-body">
+      <h3 id="modal-title">Judul Pesan</h3>
+      <p id="modal-text">Isi pesan...</p>
+      <button class="action-btn" onclick="closeNote()">Tutup</button>
+    </div>
+  </div>
+
+  <script>
+    const CORRECT_PIN = "2506";
+    let currentPin = "";
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const audio = document.getElementById('bg-music');
+    const playIcon = document.getElementById('play-icon');
+
+    // Keypad Logic
+    function pressKey(num) {
+      if (currentPin.length < 4) {
+        currentPin += num;
+        updateDots();
+        if (currentPin.length === 4) checkPin();
+      }
+    }
+    function deleteKey() { currentPin = currentPin.slice(0, -1); updateDots(); }
+    function clearPin() { currentPin = ""; updateDots(); }
+
+    function updateDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i < currentPin.length) dot.classList.add('filled');
+        else dot.classList.remove('filled');
+      }
+    }
+
+    function checkPin() {
+      if (currentPin === CORRECT_PIN) {
+        document.getElementById('pin-screen').classList.add('hidden');
+        document.getElementById('main-screen').classList.remove('hidden');
+        audio.play().then(() => { playIcon.className = "fa-solid fa-pause"; }).catch(() => {});
+      } else {
+        const errorMsg = document.getElementById('error-msg');
+        errorMsg.style.opacity = '1';
+        clearPin();
+        setTimeout(() => { errorMsg.style.opacity = '0'; }, 2000);
+      }
+    }
+
+    // Carousel Logic
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) slide.classList.add('active');
+      });
+    }
+
+    function moveSlide(direction) {
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    setInterval(() => {
+      if (!document.getElementById('main-screen').classList.contains('hidden')) moveSlide(1);
+    }, 4000);
+
+    // Audio Control
+    function toggleMusic() {
+      if (audio.paused) {
+        audio.play();
+        playIcon.className = "fa-solid fa-pause";
+      } else {
+        audio.pause();
+        playIcon.className = "fa-solid fa-play";
+      }
+    }
+
+    // Reasons Generator Logic
+    const reasons = [
+      "Kamu selalu tahu cara bikin aku senyum bahkan saat hari lagi capek-capeknya.",
+      "Sikap kamu yang selalu berusaha dan sabar banget ngadepin aku.",
+      "Kamu selalu jadi tempat aman aku buat cerita dan berbagi apa aja.",
+      "Cara kamu memperlakukan aku dengan selalu menghargai hal-hal kecil.",
+      "Because out of all the people in this world, I still want to keep choosing you every day."
+    ];
+
+    function generateReason() {
+      const random = reasons[Math.floor(Math.random() * reasons.length)];
+      document.getElementById('reason-display').innerText = `"${random}"`;
+    }
+
+    // Modal Logic
+    function openNote(title, text) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-text').innerText = text;
+      document.getElementById('note-modal').classList.add('active');
+    }
+
+    function closeNote() {
+      document.getElementById('note-modal').classList.remove('active');
+    }
+
+    // Checklist Logic
+    function toggleCheck(element) {
+      element.classList.toggle('done');
+    }
+
+    // Claim Coupon Logic
+    function claimCoupon(btn) {
+      btn.innerText = "TERKLAIM ✓";
+      btn.classList.add('claimed');
+      btn.onclick = null;
+    }
+
+    // Real Counter Timer berdasarkan tanggal jadian: 25 June 2026
+    const startDate = new Date("2026-06-25T00:00:00");
+
+    function updateTimer() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      if (diff < 0) {
+        document.getElementById('t-days').innerText = "0";
+        document.getElementById('t-hours').innerText = "00";
+        document.getElementById('t-mins').innerText = "00";
+        document.getElementById('t-secs').innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('t-days').innerText = days;
+      document.getElementById('t-hours').innerText = hours < 10 ? '0' + hours : hours;
+      document.getElementById('t-mins').innerText = minutes < 10 ? '0' + minutes : minutes;
+      document.getElementById('t-secs').innerText = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>
